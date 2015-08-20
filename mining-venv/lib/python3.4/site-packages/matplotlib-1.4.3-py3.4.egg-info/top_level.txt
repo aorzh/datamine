@@ -1,0 +1,3 @@
+matplotlib
+pylab
+mpl_toolkits
