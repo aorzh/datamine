@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, HttpResponse, render
+from django.core.urlresolvers import reverse
+
 from django.template import RequestContext
 from sklearn import metrics
 from sklearn.tree import DecisionTreeClassifier
@@ -8,6 +10,9 @@ from sklearn import datasets
 from sklearn.cross_validation import cross_val_predict
 from sklearn import linear_model
 import matplotlib.pyplot as plt
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
+
 from io import BytesIO
 
 
@@ -37,9 +42,9 @@ def index(request):
 
     fig, ax = plt.subplots()
     ax.scatter(y, predicted)
-    ax.plot([y.min(), y.max()], [y.min(), y.max()], 'k--', lw=4)
-    ax.set_xlabel('Measured')
-    ax.set_ylabel('Predicted')
+    ax.plot([y.min(), y.max()], [y.min(), y.max()], 'k--', lw=3)
+    ax.set_xlabel('X label')
+    ax.set_ylabel('Y label')
     # fig.show()
 
     # Request the context of the request.
@@ -49,7 +54,17 @@ def index(request):
     context_dict['report'] = report
     context_dict['matrix'] = matrix
 
+    canvas = FigureCanvas(fig)
+    response = HttpResponse(content_type='image/png')
+    canvas.print_png(response)
+
     # Return a rendered response to send to the client.
     # We make use of the shortcut function to make our lives easier.
     # Note that the first parameter is the template we wish to use.
-    return render_to_response('mainapp/index.html', context_dict, context)
+    return HttpResponse(response, 'image/png')
+    # return render_to_response('mainapp/index.html', context_dict, context)
+
+
+def main_page(request):
+    return render(request, "mainapp/index.html",
+                  {'graph': reverse('index')})

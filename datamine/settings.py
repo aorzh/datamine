@@ -19,6 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 def rel_project(*x):
     return os.path.join(os.path.abspath(os.path.dirname(__file__)), *x)
 
+
 SETTINGS_DIR = os.path.dirname(__file__)
 
 PROJECT_PATH = os.path.join(SETTINGS_DIR, os.pardir)
@@ -66,8 +67,7 @@ ROOT_URLCONF = 'datamine.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [rel_project('templates'),]
-        ,
+        'DIRS': [rel_project('templates'), ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -89,12 +89,12 @@ WSGI_APPLICATION = 'datamine.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'NAME': 'datamine',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': '127.0.0.1',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        #'NAME': 'datamine',
+        #'USER': 'root',
+        #'PASSWORD': 'root',
+        #'HOST': '127.0.0.1',
     }
 }
 

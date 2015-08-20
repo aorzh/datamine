@@ -24,7 +24,7 @@
         {{ report }}
         <br />
         <p>Figure:</p>
-
+{% if graph != '' %} <img src="{{ graph }}" alt="some_text"> {% endif %}
     {% endblock %}
 </div>
 </body>
